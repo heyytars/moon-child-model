@@ -3,3 +3,12 @@ __pycache__/
 .venv/
 venv/
 .DS_Store
+
+# Never commit credentials. The model needs none, and this keeps it that way
+# if a future version grows an API key.
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+secrets.json
