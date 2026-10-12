@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-The Moon Child: would a second civilisation invent religion?
+The moon child: can a mind alone invent religion?
 
 One thought experiment, three ways of raising the child, one model.
 
@@ -44,7 +44,7 @@ magnitudes do not.
 Run:  python3 model.py            (~2 minutes; prints all tables, writes results.json)
       python3 model.py --quick    (smaller sample, ~15 seconds)
 
-Reference: "The Moon Child: Would a Second Civilisation Invent Religion?"
+Reference: "The moon child: Can a mind alone invent religion?"
 https://gauravsingh.net/posts/moon-child-religion/
 """
 from __future__ import annotations

@@ -1,6 +1,6 @@
-# The Moon Child
+# The moon child
 
-Model code for the essay **[The Moon Child: Would a Second Civilisation Invent Religion?](https://gauravsingh.net/posts/moon-child-religion/)**
+Model code for the essay **[The moon child: Can a mind alone invent religion?](https://gauravsingh.net/posts/moon-child-religion/)**
 
 One human infant, raised on the Moon with no religion. Would the civilisation that grows from that child invent one?
 
