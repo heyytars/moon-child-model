@@ -22,17 +22,18 @@ Human cognition, three settings, 200,000 Monte Carlo draws each. Brackets are th
 
 | Human mind | Human caretaker | Perfect machine | A dog |
 |---|---|---|---|
-| Produces a supernatural concept | 97% | 61% | 99% |
+| Produces a supernatural concept | 96% | 61% | 99% |
 | Becomes a shared religion | 89% [80-95] | 56% [51-62] | 20% [16-25] |
 | Becomes moralising gods | 45% [0-89] | 20% [0-40] | 11% [0-24] |
 | Believers in the population | 41% | 0.1% | 9% |
 
-The two results worth the exercise:
+What the table shows, and what it does not (details in "What a stress test found" below):
 
-- **The dog produces more private belief than a human caretaker does** (99% against 97%), because both the parent and the machine explain things and the dog explains nothing. It maximises the explanatory vacuum.
-- **The dog produces the least shared religion of the three** (20% against 89%), because nothing can be transmitted. Belief arrives and is lost.
+- **Dog, shared religion: 20% against 89%.** This is the size of the consequence of giving the dog almost no language. It is an input coming back out, not a discovery that culture is needed.
+- **Dog, private belief: 99% against 96%.** Not a finding. The gap is under three points, comes from giving the dog no science, and reverses if the dog gets the caretaker's 20%.
+- **The ordering caretaker, machine, dog** is the part that survives every change tried.
 
-Cognition produces the raw material. Culture produces the religion. A mind alone generates superstition and then loses it.
+That cognition supplies the raw material and culture supplies the religion is the standard position of the cognitive science of religion. It rests on the literature cited in the essay, not on this table.
 
 ## What the models do
 
@@ -52,11 +53,29 @@ Writes `results.json` with every number printed to the terminal.
 
 ## The parameters are priors, not measurements
 
-Every parameter is written as `(point, low, high)` and sampled. The ranges are judgement calls anchored in the literature named in the docstrings, and the model's value is in its structure and its sensitivity analysis, not in its decimals. Change the values and the decimals move.
+The parameters of the probability chain are written as `(point, low, high)` and sampled. The ranges are judgement calls anchored in the literature named in the docstrings. **That is not true of everything.** The structure of the chain (a product of independent terms, with hand-set coefficients like `0.15 + 0.85 * language`) and eight constants in the agent model are fixed by hand and never sampled. The agent-model constants were tuned until belief could appear at all.
+
+Read every number as the consequence of a stated assumption, not as an estimate.
+
+## What a stress test found
+
+The numbers below were produced by importing this file unchanged and attacking it. Seeds and Monte Carlo noise are not the problem (standard deviation 0.0001 across seeds). The problem is what the outputs are made of.
+
+| Claim in the essay | What the stress test found |
+|---|---|
+| Dog: 20% shared religion, against 89% for a human caretaker | This is the language prior. Inside the dog arm, language alone explains 90% of the variance. Give the dog the caretaker's language prior and it scores 91%. Give the caretaker the dog's and it scores 19%. |
+| The dog produces more private belief than a parent (99% against 96%) | The gap reverses (to -0.7 points) if the dog is given the same 20% science as the caretaker. 77% of the dog's draws hit the ceiling at 100%, and the unclipped mean is 1.04, so the number is not a probability. |
+| Ordering: caretaker above machine above dog | Survives three functional forms and priors stretched 3x. |
+| Size of the gaps | Does not survive. The dog is 22% of the caretaker under a product form and 75% under an additive one. At 3x wider priors the caretaker and the machine bands overlap. |
+| Teleology, death awareness and pattern seeking do not matter | Built in. They feed an "any one of these will do" term that sits at 0.9996, so nothing can move it. |
+| Agent model: "switch, not a dial" | A threshold artifact. Across a twelvefold change in shocks, mean belief moves from 0.45 to 0.53. The 0.5 line cuts through that range. With zero shocks, mean belief is still 0.44. |
+| Agent model: caretaker believers 41% | 26% with a 5th to 95th percentile of 5 to 68 once the priors are propagated. Moving `base_gen` or `fidelity` by 50% moves it from about 1% to about 100%. |
+
+One bug was fixed after this audit: `equilibrium_belief` reported only the last replicate's mean, and is now the mean over all replicates. The headline numbers are identical before and after. The docstring and this README also no longer claim every parameter is sampled, which was false.
 
 Two things worth knowing before you trust a number:
 
-- **The moralising-gods row is a gap, not a finding.** The 5th to 95th percentile runs from 0 to 89 percent. That question is genuinely unresolved in the literature, and an earlier version of this model got it badly wrong by capping the settlement's population at 59 people, which capped the result by construction and produced a misleadingly clean near zero.
+- **The moralising-gods row is a gap, not a finding.** The 5th to 95th percentile runs from 0 to 89 percent. That question is genuinely unresolved in the literature, and an earlier version of this model got it badly wrong by capping the settlement's population at 59 people, which capped the result by construction and produced a misleadingly clean near zero. The model also bakes in "scale comes first," which two analyses support but which is not settled.
 - **Two of the levers probably overlap.** A strongly analytic mind and an available scientific account both mean the mind has somewhere else to go for an explanation. They are separable in principle and reported separately here, but a stricter model would merge them.
 
 ## Anchors

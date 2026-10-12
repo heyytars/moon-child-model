@@ -24,9 +24,22 @@ Two models:
               whether a population starting near zero belief converges on a
               shared one.
 
-Every parameter is a prior written as (point, low, high). The ranges are
-judgement calls anchored in the literature named below; the point of the model
-is its structure and its sensitivity, not its decimals.
+The parameters of model_a are priors written as (point, low, high), and they are
+sampled. Their ranges are judgement calls anchored in the literature named below.
+
+Two things are NOT sampled, and an audit showed they decide the headline:
+  * the structural form of model_a (a product of independent terms, with
+    hand-set coefficients such as 0.15 + 0.85 * language), and
+  * eight constants in model_b (base_gen, decay, shock_gain, analytic_pull,
+    trans, fidelity, fertility_bias, seed_belief). They were tuned until belief
+    could appear at all. Moving each by -50% / +50% changes the caretaker's
+    "believers" (published 41%) as follows: base_gen 1% / 98%, fidelity
+    5% / 100%, decay 75% / 16%, analytic_pull 73% / 17%, shock_gain 21% / 59%.
+    trans and fertility_bias barely matter: copying a random peer preserves the
+    mean, so the "costly display" mechanism does not move the headline.
+So read the numbers as the consequences of stated assumptions, not as estimates.
+The ordering caretaker > machine > dog survives every change I tried. The
+magnitudes do not.
 
 Run:  python3 model.py            (~2 minutes; prints all tables, writes results.json)
       python3 model.py --quick    (smaller sample, ~15 seconds)
@@ -226,7 +239,7 @@ def model_b(tier, env, rng, n_agents=50, generations=40, reps=300, seed_belief=0
     fertility_bias = 0.25
 
     prevalence, consensus, tips = [], 0, 0
-    last = None
+    means = []
     for _ in range(reps):
         b = np.clip(np.full(n_agents, seed_belief) + rng.normal(0, 0.01, n_agents), 0, 1)
         for _g in range(generations):
@@ -249,7 +262,7 @@ def model_b(tier, env, rng, n_agents=50, generations=40, reps=300, seed_belief=0
             parents = rng.choice(n_agents, size=n_agents, p=fit / fit.sum())
             b = fidelity * b[parents] + (1 - fidelity) * rng.beta(1.5, 4, n_agents)
             b = np.clip(b + rng.normal(0, 0.02, n_agents), 0, 1)
-        last = b
+        means.append(float(b.mean()))
         f = float((b > 0.5).mean())
         prevalence.append(f)
         if f >= 0.8:
@@ -260,7 +273,10 @@ def model_b(tier, env, rng, n_agents=50, generations=40, reps=300, seed_belief=0
         "p_consensus": consensus / reps,
         "p_tipped": tips / reps,
         "mean_prevalence": float(np.mean(prevalence)),
-        "equilibrium_belief": float(np.mean(last)),
+        # mean belief averaged over ALL replicates. An earlier version reported
+        # only the last replicate's mean here, which is one noisy draw.
+        "equilibrium_belief": float(np.mean(means)),
+        "belief_sd": float(np.std(means)),
     }
 
 

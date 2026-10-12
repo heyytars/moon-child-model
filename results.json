@@ -138,19 +138,22 @@
       "p_consensus": 0.0033333333333333335,
       "p_tipped": 0.22666666666666666,
       "mean_prevalence": 0.40653333333333336,
-      "equilibrium_belief": 0.4794731802466407
+      "equilibrium_belief": 0.49078616012034765,
+      "belief_sd": 0.01224917347622767
     },
     "perfect machine": {
       "p_consensus": 0.0,
       "p_tipped": 0.0,
       "mean_prevalence": 0.001066666666666667,
-      "equilibrium_belief": 0.3567271673933524
+      "equilibrium_belief": 0.3727924853898865,
+      "belief_sd": 0.01176033700875444
     },
     "a dog": {
       "p_consensus": 0.0,
       "p_tipped": 0.0,
       "mean_prevalence": 0.08573333333333333,
-      "equilibrium_belief": 0.24030173080080014
+      "equilibrium_belief": 0.28682917931741403,
+      "belief_sd": 0.02023085974214483
     }
   },
   "sensitivity": {
@@ -261,23 +264,23 @@
   "tipping": {
     "0.02": {
       "p_tipped": 0.0,
-      "equilibrium_belief": 0.4576490656119646
+      "equilibrium_belief": 0.4510605196468209
     },
     "0.05": {
       "p_tipped": 0.0,
-      "equilibrium_belief": 0.47434567200420974
+      "equilibrium_belief": 0.46215185688301846
     },
     "0.09": {
       "p_tipped": 0.0,
-      "equilibrium_belief": 0.4866784108297719
+      "equilibrium_belief": 0.4763134194774986
     },
     "0.15": {
       "p_tipped": 0.425,
-      "equilibrium_belief": 0.5128764303067063
+      "equilibrium_belief": 0.49770707936830133
     },
     "0.25": {
       "p_tipped": 0.995,
-      "equilibrium_belief": 0.5453166703751479
+      "equilibrium_belief": 0.5288915718200324
     }
   }
 }
